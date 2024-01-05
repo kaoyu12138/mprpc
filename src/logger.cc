@@ -1,6 +1,8 @@
 #include "logger.h"
 #include <time.h>
 #include <iostream>
+#include "memory"
+#include "functional"
 
 Logger& Logger::GetInstance(){
     static Logger logger;
@@ -17,7 +19,14 @@ Logger::Logger(){
             char file_name[128];
             sprintf(file_name, "%d-%d-%d-log.txt", nowtm->tm_year+1900, nowtm->tm_mon+1, nowtm->tm_mday);
 
-            FILE *pf = fopen(file_name, "a+");
+            //FILE *pf = fopen(file_name, "a+");
+            std::unique_ptr<FILE, std::function<void(FILE*)>> pf(
+                fopen(file_name, "a+"),
+                [](FILE* p){
+                    if(nullptr != p) fclose(p);
+                }
+            );
+            
             if(pf == nullptr){
                 std::cout<< "logger file:"<< file_name <<"open error"<<std::endl;
                 exit(EXIT_FAILURE);
@@ -33,8 +42,8 @@ Logger::Logger(){
             msg.insert(0, time_buf);
             msg.append("\n");
 
-            fputs(msg.c_str(), pf);
-            fclose(pf);
+            fputs(msg.c_str(), pf.get());
+            //fclose(pf);
         }
     });
     //设置分离线程，守护线程

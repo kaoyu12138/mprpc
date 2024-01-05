@@ -1,0 +1,62 @@
+[
+{
+  "directory": "/home/pinoky/mprpc/build/src",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/mprpc.dir/logger.cc.o -c /home/pinoky/mprpc/src/logger.cc",
+  "file": "/home/pinoky/mprpc/src/logger.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/src",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/mprpc.dir/mprpcapplication.cc.o -c /home/pinoky/mprpc/src/mprpcapplication.cc",
+  "file": "/home/pinoky/mprpc/src/mprpcapplication.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/src",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/mprpc.dir/mprpcchannel.cc.o -c /home/pinoky/mprpc/src/mprpcchannel.cc",
+  "file": "/home/pinoky/mprpc/src/mprpcchannel.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/src",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/mprpc.dir/mprpcconfig.cc.o -c /home/pinoky/mprpc/src/mprpcconfig.cc",
+  "file": "/home/pinoky/mprpc/src/mprpcconfig.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/src",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/mprpc.dir/mprpccontroller.cc.o -c /home/pinoky/mprpc/src/mprpccontroller.cc",
+  "file": "/home/pinoky/mprpc/src/mprpccontroller.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/src",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/mprpc.dir/mprpcheader.pb.cc.o -c /home/pinoky/mprpc/src/mprpcheader.pb.cc",
+  "file": "/home/pinoky/mprpc/src/mprpcheader.pb.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/src",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/mprpc.dir/mprpcprovider.cc.o -c /home/pinoky/mprpc/src/mprpcprovider.cc",
+  "file": "/home/pinoky/mprpc/src/mprpcprovider.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/src",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/mprpc.dir/zookeeperutil.cc.o -c /home/pinoky/mprpc/src/zookeeperutil.cc",
+  "file": "/home/pinoky/mprpc/src/zookeeperutil.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/example/callee",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/provider.dir/userservice.cc.o -c /home/pinoky/mprpc/example/callee/userservice.cc",
+  "file": "/home/pinoky/mprpc/example/callee/userservice.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/example/callee",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/provider.dir/__/user.pb.cc.o -c /home/pinoky/mprpc/example/user.pb.cc",
+  "file": "/home/pinoky/mprpc/example/user.pb.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/example/caller",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/consumer.dir/calluserservice.cc.o -c /home/pinoky/mprpc/example/caller/calluserservice.cc",
+  "file": "/home/pinoky/mprpc/example/caller/calluserservice.cc"
+},
+{
+  "directory": "/home/pinoky/mprpc/build/example/caller",
+  "command": "/usr/bin/g++  -I/home/pinoky/mprpc/src/include -I/home/pinoky/mprpc/example -g -o CMakeFiles/consumer.dir/__/user.pb.cc.o -c /home/pinoky/mprpc/example/user.pb.cc",
+  "file": "/home/pinoky/mprpc/example/user.pb.cc"
+}
+]

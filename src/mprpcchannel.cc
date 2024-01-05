@@ -9,6 +9,8 @@
 #include <netinet/in.h>
 #include "mprpccontroller.h"
 #include "zookeeperutil.h"
+#include "memory"
+#include "functional"
 
 //对caller调用的rpc方法，做统一的数据序列化和反序列化
 void MprpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
@@ -50,15 +52,22 @@ void MprpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
     send_rpc_str += args_str;
 
     //使用socket tcp编程完成远程调用
-    int clientfd = socket(AF_INET, SOCK_STREAM, 0);
-    if(-1 == clientfd){
+    //int clientfd = socket(AF_INET, SOCK_STREAM, 0);
+    std::unique_ptr<int, std::function<void(int*)>> clientfd(
+        new int(socket(AF_INET, SOCK_STREAM, 0)),
+         [](int* fd) {
+            if(-1 != *fd) close(*fd);
+            delete fd;
+        }
+    );
+    if(-1 == *clientfd){
         char errtxt[512] = {0};
         sprintf(errtxt, "create socket error:%d", errno);
         controller->SetFailed(errtxt);
         return;
     }
 
-        // 读取配置文件rpcserver的信息
+    // 读取配置文件rpcserver的信息
     // std::string ip = MprpcApplication::GetInstance().GetConfig().Load("rpcserverip");
     // uint16_t port = atoi(MprpcApplication::GetInstance().GetConfig().Load("rpcserverport").c_str());
     // rpc调用方想调用service_name的method_name服务，需要查询zk上该服务所在的host信息
@@ -87,16 +96,16 @@ void MprpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
     server_addr.sin_port = htons(port);
     server_addr.sin_addr.s_addr = inet_addr(ip.c_str());
 
-    if(-1 == connect(clientfd, (struct sockaddr*)&server_addr, sizeof(server_addr))){
-        close(clientfd);
+    if(-1 == connect(*clientfd, (struct sockaddr*)&server_addr, sizeof(server_addr))){
+        close(*clientfd);
         char errtxt[512] = {0};
         sprintf(errtxt, "connect error:%d", errno);
         controller->SetFailed(errtxt);
         return;
     }
     
-    if(-1 == send(clientfd, send_rpc_str.c_str(), send_rpc_str.size(), 0)){
-        close(clientfd);
+    if(-1 == send(*clientfd, send_rpc_str.c_str(), send_rpc_str.size(), 0)){
+        close(*clientfd);
         char errtxt[512] = {0};
         sprintf(errtxt, "send error:%d", errno);
         controller->SetFailed(errtxt);
@@ -106,8 +115,8 @@ void MprpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
     //接收rpc请求的响应值
     char recv_buf[1024] = {0};
     int recvSize = 0;
-    if(-1 == (recvSize = recv(clientfd, recv_buf, 1024, 0))){
-        close(clientfd);
+    if(-1 == (recvSize = recv(*clientfd, recv_buf, 1024, 0))){
+        //close(clientfd);
         char errtxt[512] = {0};
         sprintf(errtxt, "recv error:%d", errno);
         controller->SetFailed(errtxt);
@@ -116,13 +125,13 @@ void MprpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
     
     if(!response->ParseFromArray(recv_buf, recvSize))
     {
-        close(clientfd);
+        //close(clientfd);
         char errtxt[2048] = {0};
         sprintf(errtxt, "parse error: %s", recv_buf);
         controller->SetFailed(errtxt);
         return;
     }
 
-    //可使用智能指针管理clientfd优化
-    close(clientfd);
+    //使用智能指针管理clientfd
+    //close(clientfd);
 }

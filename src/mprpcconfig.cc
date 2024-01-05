@@ -1,15 +1,26 @@
 #include "mprpcconfig.h"
 #include <string>
+#include "memory"
+#include "functional"
 
 void MprpcConfig::LoadConfigFile(const char* config_file){
-    FILE *pf = fopen(config_file, "r");
+    
+    //FILE *pf = fopen(config_file, "r");
+    std::unique_ptr<FILE, std::function<void(FILE*)>> pf(
+        fopen(config_file, "r"),
+        [](FILE *p){
+            if(nullptr != p) fclose(p);
+        }
+    );
+
     if (nullptr == pf){
         exit(EXIT_FAILURE);
     }
     
-    while(!feof(pf)){
+    //使用pf.get()方法获取原始指针
+    while(!feof(pf.get())){
         char buf[512] = {0};
-        fgets(buf, 512, pf);
+        fgets(buf, 512, pf.get());
 
         std::string src_buf(buf);
         Trim(src_buf);
@@ -27,7 +38,7 @@ void MprpcConfig::LoadConfigFile(const char* config_file){
         config_map.insert({key,value});
     }
     
-    fclose(pf);
+    //fclose(pf);
 }
 
 std::string MprpcConfig::Load(const std::string &key)
